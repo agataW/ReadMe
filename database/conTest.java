@@ -5,5 +5,5 @@ package pl.wujko.ReadMe.database;
  */
 public class conTest
 {
-    int w;
+    int w,g;
 }
