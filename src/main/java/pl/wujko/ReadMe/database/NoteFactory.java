@@ -16,7 +16,7 @@ public class NoteFactory {
 
 	private File file;
 
-	public List<Note> getNotes() throws IOException {
+	public static List<Note> getNotes() throws IOException {
 		List<Note> notes = new ArrayList<Note>();
 
 		BufferedReader br = new BufferedReader(new FileReader(getFile()));  
@@ -32,50 +32,75 @@ public class NoteFactory {
 
 				@Override
 				public String getContent() {
-					if (split.length > 1) {
-						
+					String result = null;
+					if (split.length > 0) {
+						result = split[0];
 					}
-					return null;
+					if (result == null) {
+						result = "";
+					}
+					return result;
 				}
 
 				@Override
 				public RunType getRunType() {
+					RunType result = null;
 					if (split.length > 1) {
-
+						result = parseRunType(split[1]);
 					}
-					return null;
+					if (result == null) {
+						result = RunType.PERIODICALLY;
+					}
+					return result;
 				}
 
 				@Override
 				public Date getStartDate() {
-					if (split.length > 1) {
-
+					Date result = null;
+					if (split.length > 2) {
+						result = parseDate(split[2]);
 					}
-					return null;
+					if (result == null) {
+						result = new Date();
+					}
+					return result;
 				}
 
 				@Override
 				public long getDelay() {
-					if (split.length > 1) {
-
+					long result = 0;
+					if (split.length > 3) {
+						Long.parseLong(split[3]);
 					}
-					return 0;
+					return result;
 				}
 
 				@Override
 				public long getPeriod() {
-					if (split.length > 1) {
-
+					long result = 0;
+					if (split.length > 4) {
+						Long.parseLong(split[4]);
 					}
-					return 0;
+					return result;
 				}
 
 			});
-		} 
+		}
+		br.close();
 		return notes;
 	}
+	
+	protected static Date parseDate(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	private File getFile() {
+	private static RunType parseRunType(String split) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private static File getFile() {
 		// TODO Auto-generated method stub
 		return null;
 	}

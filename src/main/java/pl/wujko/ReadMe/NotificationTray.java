@@ -12,19 +12,33 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
 import javax.imageio.ImageIO;
 
+import pl.wujko.ReadMe.database.NoteFactory;
+import pl.wujko.ReadMe.type.NotificationEventListener;
+import pl.wujko.ReadMe.type.NotificationTimer;
+import pl.wujko.ReadMe.type.NotificationTimerTask;
 
-public class NotificationTray {
+
+public class NotificationTray implements NotificationEventListener {
 
 	private SystemTray tray;
 	private TrayIcon trayIcon;
+	
+	public NotificationTray() throws AWTException, IOException {
+		init();
+	}
 
 	public void init() throws AWTException, IOException {
 		tray = SystemTray.getSystemTray();
 		tray.add(getTrayIcon());
 		trayIcon.displayMessage("caption", "text", MessageType.NONE);
+		
+		NotificationTimer timer = new NotificationTimer(Arrays.asList(this));
+		timer.createTasks(NoteFactory.getNotes());
 	}
 	
 	public TrayIcon getTrayIcon() throws IOException {
@@ -56,6 +70,11 @@ public class NotificationTray {
 		menu.add(exitItem);
 		
 		return menu;
+	}
+
+	@Override
+	public void fire(String content, NotificationTimerTask task) {
+		trayIcon.displayMessage("", content, MessageType.NONE);
 	}
 	
 	
