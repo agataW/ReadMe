@@ -1,16 +1,24 @@
 package pl.wujko.ReadMe.type;
 
 
+import java.util.Collection;
 import java.util.TimerTask;
 
 public class NotificationTimerTask extends TimerTask {
 	
 	private String content;
+	private Collection<NotificationEventListener> listeners;
+
+	public NotificationTimerTask(Note note, Collection<NotificationEventListener> collection) {
+		this.listeners = collection;
+		setContent(note.getContent());
+	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-
+		for (NotificationEventListener listener : listeners) {
+			listener.fire(getContent(), this);
+		}
 	}
 
 	public String getContent() {
