@@ -1,5 +1,7 @@
 package pl.wujko.ReadMe;
 
+import java.awt.AWTException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,8 +20,17 @@ public class Main
 {
     public static void main(String[] args)
     {
-        timerTest();
+//        timerTest();
+    	trayTest();
     }
+
+	private static void trayTest() {
+		try {
+			new NotificationTray().init();
+		} catch (AWTException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static void timerTest() {
 		NotificationTimer timer = getTimer();
